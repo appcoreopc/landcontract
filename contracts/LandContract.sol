@@ -4,22 +4,27 @@ contract LandContract {
 
     mapping(uint => EstateDetail) public estates;
     
-    uint public landCount;
+    address _owner;
+
+    uint public _landCount;
     
     struct EstateDetail {        
         uint id;
-        string name;
-        uint voteCount;
+        string name;   
         string details;   
-        address owner;     
+        address owner;  
+        bool verified;   
     }    
     
-    function LandContract() public {
-
+    function LandContract(address owner) public {
+        _owner = owner;
     }
 
-    function addEstate() public {
-
+    // requires owner to add estate //
+    function addEstate(uint id, string name, string details) public {
+        require (_owner == msg.sender);
+        _landCount++;   
+        estates[_landCount] = EstateDetail(id, name, details, msg.sender, false);     
     }
 
     function sellEstate() public { 
@@ -27,12 +32,12 @@ contract LandContract {
     }
 
     function setOwner(uint landId) public { 
-        estates[landId] = EstateDetail(0, "", 0, "", 0);
+        estates[landId] = EstateDetail(_landCount, "", "", msg.sender, true);
     }
 
-    function getOwner(uint landId) public view returns (uint) {
-       EstateDetail a = estates[landId];
-       return 0;
+    function getOwner(uint landId) public view returns (address) {
+        EstateDetail a = estates[landId];
+        return a.owner;      
     }
 
     address[16] public adopters;
