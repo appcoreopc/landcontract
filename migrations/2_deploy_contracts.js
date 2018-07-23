@@ -1,4 +1,4 @@
-var Adoption = artifacts.require("Adoption");
+var Adoption = artifacts.require("Landcontract");
 
 module.exports = function(deployer) {
   deployer.deploy(Adoption);
