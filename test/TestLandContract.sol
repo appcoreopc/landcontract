@@ -12,6 +12,8 @@ contract TestLandContract {
     
     targetContract.addEstate(1, "testland1", "testland1-details");    
 
+    uint256 count = targetContract._landCount();
+
     uint112 eventFire = 0;
     /*
     targetContract.watch(function(err, result) {
@@ -19,8 +21,10 @@ contract TestLandContract {
     }); */
     log1("testing is a go!", "title");
 
-    uint data = 1;
-    Assert.equal(eventFire, data, "Added id suppose to be 1.");
+    //log0(targetContract._landCount);
+
+    uint expectedCount = 1;
+    Assert.equal(count, expectedCount, "when a new estate is added, count should increase");
   }
 
 }

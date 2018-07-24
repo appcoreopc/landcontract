@@ -37,11 +37,10 @@ contract LandContract {
         _owner = owner;
         _landCount = 0;
     }
-
     // requires owner to add estate //
     function addEstate(uint id, string name, string details) public {
         log0("addEstate function initiated.");
-        require (_owner == msg.sender);
+        //require (_owner == msg.sender);
         _landCount++;   
         estates[_landCount] = EstateDetail(id, name, details, msg.sender, false);   
         emit addLandEvent(id, name, details);
