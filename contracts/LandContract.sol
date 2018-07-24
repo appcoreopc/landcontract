@@ -19,6 +19,7 @@ contract LandContract {
     // Constructor 
     function LandContract(address owner) public {
         _owner = owner;
+        _landCount = 0;
     }
 
     // requires owner to add estate //
