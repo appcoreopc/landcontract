@@ -5,21 +5,22 @@ import "truffle/DeployedAddresses.sol";
 import "../contracts/LandContract.sol";
 
 contract TestLandContract {
-
+  
   LandContract targetContract = LandContract(DeployedAddresses.LandContract());
 
   function test() public { 
+    
+    targetContract.addEstate(1, "testland1", "testland1-details");    
 
-       targetContract.addEstate(1, "testland1", "testland1-details");
-       //const subject = targetContract.estates[0];
+    uint112 eventFire = 0;
+    /*
+    targetContract.watch(function(err, result) {
+       eventFire = 1;      
+    }); */
+    log1("testing is a go!", "title");
 
-       //Console.log(subject);
-
-       uint data = 1;
-
-       Assert.equal(1, data, "Added id suppose to be 1.");
-       
-       //Assert.equal(8, data, "Adoption of pet ID 8 should be recorded.");
+    uint data = 1;
+    Assert.equal(eventFire, data, "Added id suppose to be 1.");
   }
 
 }

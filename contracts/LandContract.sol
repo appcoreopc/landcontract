@@ -7,6 +7,22 @@ contract LandContract {
     address _owner;
 
     uint public _landCount;
+
+    // events //
+    event soldLandEvent (
+        uint indexed _landId,
+        address _newOwner
+    );
+
+    event updateLandEvent (
+        uint indexed _landId
+    );
+
+    event addLandEvent (
+        uint indexed _landId,
+        string title, 
+        string details
+    );
     
     struct EstateDetail {  
         uint id;
@@ -24,25 +40,32 @@ contract LandContract {
 
     // requires owner to add estate //
     function addEstate(uint id, string name, string details) public {
+        log0("addEstate function initiated.");
         require (_owner == msg.sender);
         _landCount++;   
-        estates[_landCount] = EstateDetail(id, name, details, msg.sender, false);     
+        estates[_landCount] = EstateDetail(id, name, details, msg.sender, false);   
+        emit addLandEvent(id, name, details);
     }
     
-    function sellEstate(uint landId, address owner) public { 
+    function sellEstate(uint landId, address owner) public {
+        log0("sellEstate function initiated."); 
         require (_owner == msg.sender);
         setOwner(landId, owner);
+        emit soldLandEvent(landId, msg.sender);
     }
 
-    function updateEstate(uint landId, string name, string details, bool verified) public { 
+    function updateEstate(uint landId, string name, string details, bool verified) public {
+        log0("updateEstate function initiated."); 
         require (_owner == msg.sender);
         EstateDetail estateInfo = estates[landId];
         estateInfo.name = name;
         estateInfo.details = details;
         estateInfo.verified = verified;        
+        emit updateLandEvent(landId);
     }
 
     function removeEstate(uint landId) public { 
+        log0("removeEstate function initiated."); 
         require (_owner == msg.sender);
         EstateDetail estateInfo = estates[landId];
         estateInfo.id = 0;
