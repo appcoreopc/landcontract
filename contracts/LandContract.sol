@@ -2,13 +2,13 @@ pragma solidity ^0.4.17;
 
 contract LandContract { 
 
-    mapping(uint => EstateDetail) public estates;
-    
+    mapping(uint => EstateDetail) public estates;  
+
     address _owner;
 
     uint public _landCount;
     
-    struct EstateDetail {        
+    struct EstateDetail {  
         uint id;
         string name;   
         string details;   
@@ -16,6 +16,7 @@ contract LandContract {
         bool verified;   
     }    
     
+    // Constructor 
     function LandContract(address owner) public {
         _owner = owner;
     }
@@ -26,33 +27,38 @@ contract LandContract {
         _landCount++;   
         estates[_landCount] = EstateDetail(id, name, details, msg.sender, false);     
     }
-
-    function sellEstate() public { 
-
+    
+    function sellEstate(uint landId, address owner) public { 
+        require (_owner == msg.sender);
+        setOwner(landId, owner);
     }
 
-    function setOwner(uint landId) public { 
-        estates[landId] = EstateDetail(_landCount, "", "", msg.sender, true);
+    function updateEstate(uint landId, string name, string details, bool verified) public { 
+        require (_owner == msg.sender);
+        EstateDetail estateInfo = estates[landId];
+        estateInfo.name = name;
+        estateInfo.details = details;
+        estateInfo.verified = verified;        
+    }
+
+    function removeEstate(uint landId) public { 
+        require (_owner == msg.sender);
+        EstateDetail estateInfo = estates[landId];
+        estateInfo.id = 0;
+        estateInfo.name = "";
+        estateInfo.details = "";
+        estateInfo.owner = 0;
+        estateInfo.verified = false;
+    }
+
+    function setOwner(uint landId, address newOwner) private {         
+        EstateDetail targetEstate = estates[landId];
+        targetEstate.owner = newOwner;
     }
 
     function getOwner(uint landId) public view returns (address) {
-        EstateDetail a = estates[landId];
-        return a.owner;      
+        EstateDetail estateInfo = estates[landId];
+        return estateInfo.owner;      
     }
-
-    address[16] public adopters;
-    // Adopting a pet
-    function adopt(uint petId) public returns (uint) {
     
-        require(petId >= 0 && petId <= 15);
-
-        adopters[petId] = msg.sender;
-
-        return petId;
-    }
-
-    // Retrieving the adopters
-    function getAdopters() public view returns (address[16]) {
-        return adopters;
-    }
 }
