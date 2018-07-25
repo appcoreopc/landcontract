@@ -14,10 +14,7 @@ class App extends React.Component {
         <p className="App-intro">
           To get started, edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <Simple/>
-        <Simple/>
-        <Simple/>
-        <Simple/>
+        <Simple username='jeremy'/>       
       </div>
     );
   }

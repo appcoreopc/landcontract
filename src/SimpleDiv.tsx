@@ -1,11 +1,15 @@
 import * as React from 'react';
 
-class Simple extends React.Component {
+interface IUser extends React.Props<any> {   
+  username : string 
+}
 
-    public render() {
+class Simple extends React.Component<IUser> {
+
+  public render() {
     return (
       <div>
-         Jeremy  Hello there!!! </div> 
+           Hello there, {this.props.username}  </div> 
     );
  }
 }
